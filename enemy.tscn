@@ -21,4 +21,10 @@ mesh = SubResource("CapsuleMesh_x2byx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00638223, 1, 0.00348639)
 shape = SubResource("CapsuleShape3D_jatvn")
 
-[node name="NavigationRegion3D" type="NavigationAgent3D" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 2.0
+path_height_offset = 0.1
+path_max_distance = 3.01
+avoidance_enabled = true
+
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
