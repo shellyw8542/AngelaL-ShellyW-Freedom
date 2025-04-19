@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb4o3wodt3ros"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_a5jae"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arb7g"]
+albedo_color = Color(1, 0.682353, 0.686275, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x2byx"]
+material = SubResource("StandardMaterial3D_arb7g")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jatvn"]
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+script = ExtResource("1_a5jae")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_x2byx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00638223, 1, 0.00348639)
+shape = SubResource("CapsuleShape3D_jatvn")
+
+[node name="NavigationRegion3D" type="NavigationAgent3D" parent="."]
