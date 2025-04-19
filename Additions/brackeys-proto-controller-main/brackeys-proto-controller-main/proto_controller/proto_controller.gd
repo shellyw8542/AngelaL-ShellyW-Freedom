@@ -52,7 +52,8 @@ var freeflying : bool = false
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
-
+@onready var anim_player = $AnimationPlayer
+@onready var hitbox = $Head/Camera3D/WeaponPivot/WeaponMesh/Hitbox
 func _ready() -> void:
 	check_input_mappings()
 	look_rotation.y = rotation.y
@@ -75,7 +76,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			enable_freefly()
 		else:
 			disable_freefly()
-
+func _process(delta):
+	if Input.is_action_just_pressed("quit"):
+		get_tree().quit()
+		
+	if Input.is_action_just_pressed("attack"):
+		anim_player.play("attack")
+		hitbox.monitoring = true
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
@@ -176,3 +183,14 @@ func check_input_mappings():
 	if can_freefly and not InputMap.has_action(input_freefly):
 		push_error("Freefly disabled. No InputAction found for input_freefly: " + input_freefly)
 		can_freefly = false
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "attack":
+			anim_player.play("idle")
+			hitbox.monitoring = false
+
+
+func _on_hitbox_body_entered(body):
+	if body.is_in_group("enemies"):
+		print("enemy hit")
