@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://tdq8ueuphp2b"]
+
+[ext_resource type="PackedScene" uid="uid://btol8ywe0h0tr" path="res://Models/Crypt/tree.glb" id="1_msq5x"]
+
+[node name="tree2" instance=ExtResource("1_msq5x")]
+
+[node name="tree" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101011, -0.0360179, 0.00852013)
