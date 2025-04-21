@@ -13,6 +13,17 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_88o12"]
 albedo_color = Color(0.360784, 0.25098, 0.2, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2tbv1"]
+bg_color = Color(0.8, 0.024, 0.024, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4plig"]
+bg_color = Color(0.177333, 0.56, 0, 1)
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_7546e")
 
@@ -178,3 +189,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3204, 0.209235, 12.2354)
 
 [node name="Enemy3" parent="." instance=ExtResource("3_exsc0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.24307, 0.337631, 15.2274)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 105.0
+offset_top = 60.0
+offset_right = 489.0
+offset_bottom = 114.0
+theme_override_styles/background = SubResource("StyleBoxFlat_2tbv1")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4plig")
+value = 100.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="Enemy" method="_on_timer_timeout"]
