@@ -149,7 +149,7 @@ _data = {
 "new_animation": SubResource("Animation_xyqi2")
 }
 
-[node name="ProtoController" type="CharacterBody3D" groups=["player"]]
+[node name="ProtoController" type="CharacterBody3D"]
 script = ExtResource("1_wlipi")
 can_sprint = true
 input_left = "move_left"

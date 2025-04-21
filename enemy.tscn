@@ -1,8 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bb4o3wodt3ros"]
+[gd_scene load_steps=5 format=3 uid="uid://bb4o3wodt3ros"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_a5jae"]
-[ext_resource type="Script" path="res://collision_shape_3d.gd" id="2_5qb20"]
-[ext_resource type="Script" path="res://area_3d.gd" id="3_yo8gd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arb7g"]
 albedo_color = Color(1, 0.682353, 0.686275, 1)
@@ -11,9 +9,6 @@ albedo_color = Color(1, 0.682353, 0.686275, 1)
 material = SubResource("StandardMaterial3D_arb7g")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jatvn"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kechk"]
-radius = 0.555
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 script = ExtResource("1_a5jae")
@@ -25,7 +20,6 @@ mesh = SubResource("CapsuleMesh_x2byx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00638223, 1, 0.00348639)
 shape = SubResource("CapsuleShape3D_jatvn")
-script = ExtResource("2_5qb20")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 target_desired_distance = 2.0
@@ -33,15 +27,4 @@ path_height_offset = 0.1
 path_max_distance = 3.01
 avoidance_enabled = true
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.953011, 0)
-script = ExtResource("3_yo8gd")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.117967, 0)
-shape = SubResource("CapsuleShape3D_kechk")
-script = ExtResource("2_5qb20")
-
-[connection signal="body_part_hit" from="CollisionShape3D" to="." method="_on_collision_shape_3d_body_part_hit"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
