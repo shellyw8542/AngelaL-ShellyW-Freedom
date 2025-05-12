@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b5m4h8fdgai5d"]
+[gd_scene load_steps=10 format=3 uid="uid://b5m4h8fdgai5d"]
 
 [ext_resource type="Script" path="res://node_3d.gd" id="1_7546e"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://Additions/brackeys-proto-controller-main/brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_pjmad"]
 [ext_resource type="PackedScene" uid="uid://bb4o3wodt3ros" path="res://enemy.tscn" id="3_exsc0"]
+[ext_resource type="PackedScene" uid="uid://xh4gg4w8ynqa" path="res://enemySpawner.tscn" id="4_osyys"]
+[ext_resource type="Script" path="res://canvas_layer_2.gd" id="5_2x0af"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_si2u7"]
 vertices = PackedVector3Array(-337.569, -195.363, 589.111, 616.931, -32.3627, 342.611, 338.181, 189.387, -590.889, -616.319, 26.3873, -344.389)
@@ -66,5 +68,16 @@ value = 100.0
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="EnemySpawner" parent="." instance=ExtResource("4_osyys")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+script = ExtResource("5_2x0af")
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer2"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Score: 
+"
 
 [connection signal="timeout" from="Timer" to="Enemy" method="_on_timer_timeout"]

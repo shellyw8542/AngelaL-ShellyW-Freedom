@@ -37,4 +37,5 @@ func take_damage(damage: int):
 	health -= damage
 	print("Enemy HP:", health)
 	if health <= 0:
+		ScoreManager.add_score(1)
 		queue_free()  # <- makes it so that the enemy is gone from the game
