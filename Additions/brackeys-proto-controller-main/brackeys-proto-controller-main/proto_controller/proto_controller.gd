@@ -1,8 +1,3 @@
-# ProtoController v1.0 by Brackeys
-# CC0 License
-# Intended for rapid prototyping of first-person games.
-# Happy prototyping!
-
 extends CharacterBody3D
 
 ## Can we move around?
@@ -43,7 +38,8 @@ extends CharacterBody3D
 @export var input_sprint : String = "sprint"
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
-
+@export var max_health: int = 10
+var current_health: int
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
@@ -55,6 +51,7 @@ var freeflying : bool = false
 @onready var anim_player = $AnimationPlayer
 @onready var hitbox = $Head/Camera3D/WeaponPivot/WeaponMesh/Hitbox
 func _ready() -> void:
+	current_health = max_health
 	check_input_mappings()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
@@ -76,13 +73,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			enable_freefly()
 		else:
 			disable_freefly()
-func _process(delta):
+			
+func _process(delta: float):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 		
 	if Input.is_action_just_pressed("attack"):
 		anim_player.play("attack")
 		hitbox.monitoring = true
+
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
@@ -137,6 +136,27 @@ func rotate_look(rot_input : Vector2):
 	rotate_y(look_rotation.y)
 	head.transform.basis = Basis()
 	head.rotate_x(look_rotation.x)
+
+
+func take_damage(amount: int) -> void:
+	current_health -= amount
+	print("Player HP:", current_health)
+	if current_health <= 0:
+		die()
+
+func die() -> void:
+	can_move = false
+	set_process(false)
+	set_physics_process(false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+	# Show the death screen
+	var death_screen = get_node_or_null("/root/Main/DeathScreen")
+	if death_screen:
+		death_screen.show()  
+	else:
+		print("Death screen not found!")
+
 
 
 func enable_freefly():
@@ -195,4 +215,4 @@ func _on_hitbox_body_entered(body):
 	if body.is_in_group("enemies"):
 		print("enemy hit!")
 		if body.has_method("take_damage"):
-			body.take_damage(2) 
+			body.take_damage(2)

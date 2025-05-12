@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5m4h8fdgai5d"]
+[gd_scene load_steps=11 format=3 uid="uid://b5m4h8fdgai5d"]
 
-[ext_resource type="Script" path="res://node_3d.gd" id="1_7546e"]
-[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://Additions/brackeys-proto-controller-main/brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_pjmad"]
-[ext_resource type="PackedScene" uid="uid://bb4o3wodt3ros" path="res://enemy.tscn" id="3_exsc0"]
-[ext_resource type="PackedScene" uid="uid://xh4gg4w8ynqa" path="res://enemySpawner.tscn" id="4_osyys"]
-[ext_resource type="Script" path="res://canvas_layer_2.gd" id="5_2x0af"]
+[ext_resource type="Script" path="res://node_3d.gd" id="1_m4k3c"]
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://Additions/brackeys-proto-controller-main/brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="2_2760p"]
+[ext_resource type="PackedScene" uid="uid://bb4o3wodt3ros" path="res://enemy.tscn" id="3_203t3"]
+[ext_resource type="PackedScene" uid="uid://xh4gg4w8ynqa" path="res://enemySpawner.tscn" id="4_hy51h"]
+[ext_resource type="Script" path="res://canvas_layer_2.gd" id="5_gn0p4"]
+[ext_resource type="Script" path="res://DeathScreen.gd" id="6_uv3mm"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_si2u7"]
 vertices = PackedVector3Array(-337.569, -195.363, 589.111, 616.931, -32.3627, 342.611, 338.181, 189.387, -590.889, -616.319, 26.3873, -344.389)
@@ -25,7 +26,7 @@ border_color = Color(0, 0, 0, 1)
 bg_color = Color(0.177333, 0.56, 0, 1)
 
 [node name="World" type="Node3D"]
-script = ExtResource("1_7546e")
+script = ExtResource("1_m4k3c")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(0.953207, 0.170651, -0.24955, -0.1051, 0.961019, 0.255728, 0.283463, -0.217534, 0.933985, -6.82574, 3.56546, -0.419329)
@@ -42,16 +43,16 @@ material = SubResource("StandardMaterial3D_88o12")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.953207, 0.170651, -0.24955, -0.1051, 0.961019, 0.255728, 0.283463, -0.217534, 0.933985, 0, 3.56546, 0)
 
-[node name="ProtoController" parent="." instance=ExtResource("1_pjmad")]
+[node name="ProtoController" parent="." instance=ExtResource("2_2760p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0903163, 0.241234, -0.12551)
 
-[node name="Enemy" parent="." instance=ExtResource("3_exsc0")]
+[node name="Enemy" parent="." instance=ExtResource("3_203t3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.86272, 0.447867, 11.3826)
 
-[node name="Enemy2" parent="." instance=ExtResource("3_exsc0")]
+[node name="Enemy2" parent="." instance=ExtResource("3_203t3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3204, 0.209235, 12.2354)
 
-[node name="Enemy3" parent="." instance=ExtResource("3_exsc0")]
+[node name="Enemy3" parent="." instance=ExtResource("3_203t3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.24307, 0.337631, 15.2274)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -69,10 +70,10 @@ value = 100.0
 wait_time = 0.1
 one_shot = true
 
-[node name="EnemySpawner" parent="." instance=ExtResource("4_osyys")]
+[node name="EnemySpawner" parent="." instance=ExtResource("4_hy51h")]
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
-script = ExtResource("5_2x0af")
+script = ExtResource("5_gn0p4")
 
 [node name="ScoreLabel" type="Label" parent="CanvasLayer2"]
 offset_right = 40.0
@@ -80,4 +81,36 @@ offset_bottom = 23.0
 text = "Score: 
 "
 
+[node name="CanvasLayer3" type="CanvasLayer" parent="."]
+visible = false
+script = ExtResource("6_uv3mm")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer3"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -11.0
+offset_right = 37.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Died!"
+
+[node name="Button" type="Button" parent="CanvasLayer3"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Retry?"
+
 [connection signal="timeout" from="Timer" to="Enemy" method="_on_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer3/Button" to="." method="_on_button_pressed"]
