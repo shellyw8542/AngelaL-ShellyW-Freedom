@@ -56,6 +56,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3204, 0.209235, 12.2354)
 [node name="Enemy3" parent="." instance=ExtResource("3_203t3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.24307, 0.337631, 15.2274)
 
+[node name="Enemy4" parent="." instance=ExtResource("3_203t3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.7963, 0.895734, -15.7699)
+
+[node name="Enemy5" parent="." instance=ExtResource("3_203t3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.6396, 0.689101, -15.6346)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
