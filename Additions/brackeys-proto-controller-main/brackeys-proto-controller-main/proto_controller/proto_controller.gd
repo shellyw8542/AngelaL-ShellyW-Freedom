@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+signal player_died
 ## Can we move around?
 @export var can_move : bool = true
 ## Are we affected by gravity?
@@ -139,26 +140,24 @@ func rotate_look(rot_input : Vector2):
 
 
 func take_damage(amount: int) -> void:
+	print("Player took damage:", amount)
 	current_health -= amount
 	print("Player HP:", current_health)
 	if current_health <= 0:
+		print("Calling die()...")
 		die()
 
-func die() -> void:
+func die():
 	can_move = false
 	set_process(false)
 	set_physics_process(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-	# Show the death screen
-	var death_screen = get_node_or_null("/root/Main/DeathScreen")
+	var death_screen = get_node("/root/World/DeathScreen")
 	if death_screen:
-		death_screen.show()  
+		print("✅ Death screen found, showing...")
+		death_screen.visible = true
 	else:
-		print("Death screen not found!")
-
-
-
+		print("❌ Death screen not found!")
 func enable_freefly():
 	collider.disabled = true
 	freeflying = true

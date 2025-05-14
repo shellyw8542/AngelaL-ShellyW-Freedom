@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b5m4h8fdgai5d"]
+[gd_scene load_steps=12 format=3 uid="uid://b5m4h8fdgai5d"]
 
 [ext_resource type="Script" path="res://node_3d.gd" id="1_m4k3c"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://Additions/brackeys-proto-controller-main/brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="2_2760p"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://xh4gg4w8ynqa" path="res://enemySpawner.tscn" id="4_hy51h"]
 [ext_resource type="Script" path="res://canvas_layer_2.gd" id="5_gn0p4"]
 [ext_resource type="Script" path="res://DeathScreen.gd" id="6_uv3mm"]
+[ext_resource type="Script" path="res://playbutton.gd" id="7_k6f7u"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_si2u7"]
 vertices = PackedVector3Array(-337.569, -195.363, 589.111, 616.931, -32.3627, 342.611, 338.181, 189.387, -590.889, -616.319, 26.3873, -344.389)
@@ -60,8 +61,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.24307, 0.337631, 15.2274)
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
 offset_left = 105.0
 offset_top = 60.0
-offset_right = 489.0
-offset_bottom = 114.0
+offset_right = 475.0
+offset_bottom = 112.0
 theme_override_styles/background = SubResource("StyleBoxFlat_2tbv1")
 theme_override_styles/fill = SubResource("StyleBoxFlat_4plig")
 value = 100.0
@@ -81,11 +82,10 @@ offset_bottom = 23.0
 text = "Score: 
 "
 
-[node name="CanvasLayer3" type="CanvasLayer" parent="."]
-visible = false
+[node name="DeathScreen" type="CanvasLayer" parent="."]
 script = ExtResource("6_uv3mm")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer3"]
+[node name="ColorRect" type="ColorRect" parent="DeathScreen"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -93,24 +93,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="CanvasLayer3"]
-anchors_preset = 8
+[node name="Label" type="Label" parent="DeathScreen"]
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.501
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 0.501
 offset_left = -37.0
-offset_top = -11.0
+offset_top = -11.648
 offset_right = 37.0
-offset_bottom = 12.0
+offset_bottom = 11.352
 grow_horizontal = 2
 grow_vertical = 2
 text = "You Died!"
 
-[node name="Button" type="Button" parent="CanvasLayer3"]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="Button" type="Button" parent="DeathScreen"]
+offset_left = 548.0
+offset_top = 432.0
+offset_right = 609.0
+offset_bottom = 471.0
 text = "Retry?"
+script = ExtResource("7_k6f7u")
 
 [connection signal="timeout" from="Timer" to="Enemy" method="_on_timer_timeout"]
-[connection signal="pressed" from="CanvasLayer3/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="DeathScreen/Button" to="." method="_on_button_pressed"]

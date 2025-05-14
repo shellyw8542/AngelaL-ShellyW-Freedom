@@ -1,10 +1,12 @@
 extends CharacterBody3D
-
+@onready var hitbox_area = $Area3D
 @onready var nav_agent =$NavigationAgent3D
 @onready var process = $"../CanvasLayer/ProgressBar"
 @onready var timer = $"../Timer"
 var SPEED = 3.0 
 var health = 10
+var player_inside = null
+
 func _physics_process(delta):
 	var current_location = global_transform.origin
 	var next_location =  nav_agent.get_next_path_position()
@@ -26,13 +28,24 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity):
 
 func _on_area_3d_body_entered(body):
 	if body.is_in_group("player"):
+		player_inside = body
 		timer.start()
 
 
 func _on_timer_timeout():
-	process.value -= 10
-
-
+	if player_inside and player_inside.has_method("take_damage"):
+		player_inside.take_damage(2)
+		process.value-=20
+func _on_area_3d_body_exited(body):
+	if body == player_inside:
+		player_inside = null
+		timer.stop()
+	# Try to find the player again
+	for other_body in hitbox_area.get_overlapping_bodies():
+		if other_body.is_in_group("player"):
+			if other_body.has_method("take_damage"):
+				other_body.take_damage(2)
+				
 func take_damage(damage: int):
 	health -= damage
 	print("Enemy HP:", health)
