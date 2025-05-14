@@ -6,14 +6,22 @@ extends CharacterBody3D
 var SPEED = 3.0 
 var health = 10
 var player_inside = null
-
+func set_target(player_ref):
+	if player_ref:
+		update_target_location(player_ref.global_position)
+		# Store reference so you can track player movement or damage them later
+	if player_inside:
+		update_target_location(player_inside.global_position)
+		player_inside = player_ref
+		
 func _physics_process(delta):
 	var current_location = global_transform.origin
 	var next_location =  nav_agent.get_next_path_position()
 	var new_velocity = (next_location - current_location).normalized() * SPEED 
 	
 	nav_agent.set_velocity(new_velocity)
-
+	if player_inside:
+		update_target_location(player_inside.global_position)
 func update_target_location(target_location):
 	nav_agent.target_position = target_location
 
@@ -30,8 +38,7 @@ func _on_area_3d_body_entered(body):
 	if body.is_in_group("player"):
 		player_inside = body
 		timer.start()
-
-
+		
 func _on_timer_timeout():
 	if player_inside and player_inside.has_method("take_damage"):
 		player_inside.take_damage(2)
