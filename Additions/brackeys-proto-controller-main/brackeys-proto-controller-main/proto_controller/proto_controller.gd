@@ -213,9 +213,7 @@ func _on_animation_player_animation_finished(anim_name):
 			anim_player.play("idle")
 			hitbox.monitoring = false
 
-
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("enemies"):
-		print("enemy hit!")
 		if body.has_method("take_damage"):
 			body.take_damage(2)

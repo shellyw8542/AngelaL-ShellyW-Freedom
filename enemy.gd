@@ -11,7 +11,6 @@ var player_inside = null
 func set_target(player_ref):
 	if player_ref:
 		update_target_location(player_ref.global_position)
-		# Store reference so you can track player movement or damage them later
 	if player_inside:
 		update_target_location(player_inside.global_position)
 		player_inside = player_ref
@@ -52,15 +51,14 @@ func _on_area_3d_body_exited(body):
 	if body == player_inside:
 		player_inside = null
 		timer.stop()
-	# Try to find the player again
 	for other_body in hitbox_area.get_overlapping_bodies():
 		if other_body.is_in_group("player"):
 			if other_body.has_method("take_damage"):
 				other_body.take_damage(2)
 				
+
 func take_damage(damage: int):
 	health -= damage
-	print("Enemy HP:", health)
 	if health <= 0:
 		ScoreManager.add_score(1)
 		queue_free()  # <- makes it so that the enemy is gone from the game

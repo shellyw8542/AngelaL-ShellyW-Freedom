@@ -89,6 +89,7 @@ text = "Score:
 "
 
 [node name="DeathScreen" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("6_uv3mm")
 
 [node name="ColorRect" type="ColorRect" parent="DeathScreen"]
