@@ -1,4 +1,6 @@
 extends CharacterBody3D
+@onready var health_bar = get_node("/root/World/CanvasLayer/HealthBar")
+
 @onready var hitbox_area = $Area3D
 @onready var nav_agent =$NavigationAgent3D
 @onready var process = $"../CanvasLayer/ProgressBar"
@@ -36,13 +38,16 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity):
 
 func _on_area_3d_body_entered(body):
 	if body.is_in_group("player"):
-		player_inside = body
-		timer.start()
-		
+		print("Instant damage test")
+		if body.has_method("take_damage"):
+			body.take_damage(2)
+
 func _on_timer_timeout():
 	if player_inside and player_inside.has_method("take_damage"):
+		print("Enemy attacking player...")
 		player_inside.take_damage(2)
-		process.value-=20
+		process.value -= 20
+
 func _on_area_3d_body_exited(body):
 	if body == player_inside:
 		player_inside = null

@@ -11,7 +11,7 @@ signal player_died
 @export var can_sprint : bool = false
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = false
-
+@onready var health_bar = get_node("/root/World/CanvasLayer/ProgressBar")
 @export_group("Speeds")
 ## Look around rotation speed.
 @export var look_speed : float = 0.002
@@ -143,6 +143,10 @@ func take_damage(amount: int) -> void:
 	print("Player took damage:", amount)
 	current_health -= amount
 	print("Player HP:", current_health)
+
+	if health_bar:
+		health_bar.value = float(current_health) / max_health * 100.0
+
 	if current_health <= 0:
 		print("Calling die()...")
 		die()

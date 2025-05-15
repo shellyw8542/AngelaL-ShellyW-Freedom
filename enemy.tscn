@@ -45,3 +45,4 @@ script = ExtResource("2_5qb20")
 [connection signal="body_part_hit" from="CollisionShape3D" to="." method="_on_collision_shape_3d_body_part_hit"]
 [connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
